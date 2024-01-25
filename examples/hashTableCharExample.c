@@ -43,15 +43,10 @@ int main() {
     hashTableInsert(hashTable, "Orange", "#FFA500");
     hashTableInsert(hashTable, "Orange2", "#ad");
     hashTableInsert(hashTable, "smell", "#adasd");
-
     hashTableInsert(hashTable, "tests", "#FFA500");
     
     printf("%s\n",(char *)hashTableRetrieve(hashTable, "Red"));
 
-    // Display the hash table
-    printf("Initial Hash Table:\n");
-    // Display the initial hash table
-    // Display the values for specific keys
     hashTablePrintf(hashTable);
 
     // Free allocated memory

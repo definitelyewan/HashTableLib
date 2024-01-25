@@ -41,7 +41,10 @@ typedef struct _HashTablePair{
 
 }HashTablePair;
 
-// Structure for the hash table
+/**
+ * @brief Hash table obj
+ * 
+ */
 typedef struct _HashTable {
     
     //! Size of the table
