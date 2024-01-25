@@ -30,7 +30,7 @@ python3 scripts/docs.py
 
 ##### Building examples
 ```bash
-python3 scripts/docs.py
+python3 scripts/examples.py
 ```
 
 ### Examples
