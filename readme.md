@@ -17,6 +17,22 @@ comparing data, and printing data to a console.
  - User programmable free, print and copy functionality
  - License: MIT
 
+### Building
+There are a couple of scripts located in the scripts folder that can be used to build this project.
+##### Building the project
+```bash
+python3 scripts/build.py
+```
+##### Building documentation
+```bash
+python3 scripts/docs.py
+```
+
+##### Building examples
+```bash
+python3 scripts/docs.py
+```
+
 ### Examples
 ```c
 #include <stdio.h>

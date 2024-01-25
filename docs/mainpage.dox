@@ -19,6 +19,15 @@ The HashTableLib provides:
  - User programmable free, print and copy functionality
  - License: MIT
 
+@section main-test Building
+There are a couple of scripts located in the scripts folder that can be used to build this project.
+
+@code
+python3 scripts/build.py    // Builds the project
+python3 scripts/docs.py     // Generates documentation
+python3 scripts/examples.py // Builds and runs project examples
+@endcode
+
 @section main-test Examples
 
 @code
