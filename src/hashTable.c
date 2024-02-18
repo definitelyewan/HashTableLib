@@ -84,6 +84,10 @@ HashTable *hashTableCreate(size_t size, void (*deleteData)(void *toBeDeleted), c
  */
 void hashTableInsert(HashTable *hashTable, const char *key, void *value){
     
+    if(hashTable == NULL || key == NULL){
+        return;
+    }
+
     unsigned long index = hashTableHashFunction(key) % hashTable->size;
     HashTablePair *newPair = hashTablePairCreate(key, hashTable->copyData(value));
 
@@ -109,6 +113,10 @@ void hashTableInsert(HashTable *hashTable, const char *key, void *value){
  */
 void *hashTableRetrieve(HashTable *hashTable, const char *key){
     
+    if(hashTable == NULL || key == NULL){
+        return NULL;
+    }
+
     unsigned long index = hashTableHashFunction(key) % hashTable->size;
     HashTablePair *current = hashTable->table[index];
 
@@ -131,6 +139,11 @@ void *hashTableRetrieve(HashTable *hashTable, const char *key){
  * @param hashTable 
  */
 void hashTablePrintf(HashTable *hashTable){
+    
+    if(hashTable == NULL){
+        return;
+    }
+    
     for(int i = 0; i < hashTable->size; i++){
         printf("[%d] -> ", i);
 
@@ -158,6 +171,10 @@ void hashTablePrintf(HashTable *hashTable){
  */
 void hashTableFree(HashTable *hashTable) {
     
+    if(hashTable == NULL){
+        return;
+    }
+
     for(size_t i = 0; i < hashTable->size; i++){
         
         HashTablePair *current = hashTable->table[i];
@@ -184,6 +201,10 @@ void hashTableFree(HashTable *hashTable) {
  */
 void hashTableResize(HashTable *hashTable, size_t newSize) {
     
+    if(hashTable == NULL){
+        return;
+    }
+
     HashTable *newTable = hashTableCreate(newSize, hashTable->deleteData, hashTable->printData, hashTable->copyData);
 
     for(size_t i = 0; i < hashTable->size; i++){

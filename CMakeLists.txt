@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project(HashTableLib VERSION 1.0.0.0)
+project(HashTableLib VERSION 1.0.1.0)
 
 option(BUILD_SHARED_LIBS "building a shared lib" OFF)
 option(BUILD_HTL_DOCS "build docs" OFF)
