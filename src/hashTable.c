@@ -173,8 +173,8 @@ void hashTablePrintf(HashTable *hashTable){
         return;
     }
     
-    for(int i = 0; i < hashTable->size; i++){
-        printf("[%d] -> ", i);
+    for(size_t i = 0; i < hashTable->size; i++){
+        printf("[%ld] -> ", i);
 
         HashTablePair *current = hashTable->table[i];
 
