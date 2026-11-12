@@ -43,7 +43,7 @@ HashTablePair *hashTablePairCreate(const char *key, void *value){
     HashTablePair *newPair = malloc(sizeof(HashTablePair));
     
     if(newPair != NULL){
-        strcpy(newPair->key, key);
+        strncpy(newPair->key, key, HASH_TABLE_MAX_KEY_SIZE);
         newPair->value = value;
         newPair->next = NULL;
     }
