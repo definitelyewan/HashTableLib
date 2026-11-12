@@ -39,11 +39,21 @@ unsigned long hashTableHashFunction(const char *str){
  * @return HashTablePair* 
  */
 HashTablePair *hashTablePairCreate(const char *key, void *value){
-    
+
+    if(key == NULL){
+        return NULL;
+    }
+
+    size_t len = strlen(key);
+
+    if(len > HASH_TABLE_MAX_KEY_SIZE){
+        return NULL;
+    }
+
     HashTablePair *newPair = malloc(sizeof(HashTablePair));
-    
+
     if(newPair != NULL){
-        strncpy(newPair->key, key, HASH_TABLE_MAX_KEY_SIZE);
+        memcpy(newPair->key, key, len + 1);
         newPair->value = value;
         newPair->next = NULL;
     }
@@ -78,18 +88,31 @@ HashTable *hashTableCreate(size_t size, void (*deleteData)(void *toBeDeleted), c
 /**
  * @brief Inserts a value and key into the hash table
  * 
- * @param hashTable 
- * @param key 
- * @param value 
+ * @details Keys longer than HASH_TABLE_MAX_KEY_SIZE characters are rejected, not truncated.
+ * @param hashTable
+ * @param key
+ * @param value
+ * @return int - 0 on success, 1 if the table or key is NULL, the key is too long or allocation fails
  */
-void hashTableInsert(HashTable *hashTable, const char *key, void *value){
-    
-    if(hashTable == NULL || key == NULL){
-        return;
+int hashTableInsert(HashTable *hashTable, const char *key, void *value){
+
+    if(hashTable == NULL || key == NULL || hashTable->size == 0){
+        return 1;
+    }
+
+    // check before copying the value so a rejected key leaks nothing
+    if(strlen(key) > HASH_TABLE_MAX_KEY_SIZE){
+        return 1;
     }
 
     unsigned long index = hashTableHashFunction(key) % hashTable->size;
-    HashTablePair *newPair = hashTablePairCreate(key, hashTable->copyData(value));
+    void *valueCopy = hashTable->copyData(value);
+    HashTablePair *newPair = hashTablePairCreate(key, valueCopy);
+
+    if(newPair == NULL){
+        hashTable->deleteData(valueCopy);
+        return 1;
+    }
 
     // Insert the new pair at the beginning of the linked list
     newPair->next = hashTable->table[index];
@@ -102,18 +125,24 @@ void hashTableInsert(HashTable *hashTable, const char *key, void *value){
     if ((double)hashTable->itemCount / hashTable->size > LOAD_FACTOR_THRESHOLD) {
         hashTableResize(hashTable, hashTable->size * 2); // Resize to double the current size
     }
+
+    return 0;
 }
 
 /**
- * @brief Returns a referance to the value stored at the provided keys hash 
- * 
- * @param hashTable 
- * @param key 
- * @return void* 
+ * @brief Returns a referance to the value stored at the provided keys hash
+ *
+ * @param hashTable
+ * @param key
+ * @return void* - the value, or NULL if not found or the key is longer than HASH_TABLE_MAX_KEY_SIZE
  */
 void *hashTableRetrieve(HashTable *hashTable, const char *key){
-    
-    if(hashTable == NULL || key == NULL){
+
+    if(hashTable == NULL || key == NULL || hashTable->size == 0){
+        return NULL;
+    }
+
+    if(strlen(key) > HASH_TABLE_MAX_KEY_SIZE){
         return NULL;
     }
 

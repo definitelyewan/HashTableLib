@@ -21,17 +21,18 @@ extern "C"{
 #include <stdint.h>
 
 #define LOAD_FACTOR_THRESHOLD 0.7
+//! Maximum number of characters in a key, not counting the null terminator
 #define HASH_TABLE_MAX_KEY_SIZE 25
 
 
 /**
  * @brief A key, value pair for indexing in a hash table
- * 
+ *
  */
 typedef struct _HashTablePair{
 
-    //! Key
-    char key[HASH_TABLE_MAX_KEY_SIZE];
+    //! Key (+1 for the null terminator)
+    char key[HASH_TABLE_MAX_KEY_SIZE + 1];
 
     //! Pair
     void *value;
@@ -73,7 +74,7 @@ HashTable *hashTableCreate(size_t size, void (*deleteData)(void *toBeDeleted), c
 HashTablePair *hashTablePairCreate(const char *key, void *value);
 
 
-void hashTableInsert(HashTable *hashTable, const char *key, void *value);
+int hashTableInsert(HashTable *hashTable, const char *key, void *value);
 void *hashTableRetrieve(HashTable *hashTable, const char *key);
 
 
